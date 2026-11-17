@@ -104,7 +104,7 @@
         <!-- Social Sign-in Buttons -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-7">
           <!-- Google -->
-          <button type="button" onclick="showAccountSuspended('Google Sign In')" class="flex items-center justify-center gap-2.5 px-4 py-3 border border-gray-200 rounded-xl text-xs sm:text-sm font-semibold text-gray-700 hover:bg-gray-50 active:scale-[0.98] transition">
+          <button type="button" onclick="handleSocialLogin('Google')" class="flex items-center justify-center gap-2.5 px-4 py-3 border border-gray-200 rounded-xl text-xs sm:text-sm font-semibold text-gray-700 hover:bg-gray-50 active:scale-[0.98] transition">
             <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -115,7 +115,7 @@
           </button>
 
           <!-- Apple -->
-          <button type="button" onclick="showAccountSuspended('Apple Sign In')" class="flex items-center justify-center gap-2.5 px-4 py-3 border border-gray-200 rounded-xl text-xs sm:text-sm font-semibold text-gray-700 hover:bg-gray-50 active:scale-[0.98] transition">
+          <button type="button" onclick="handleSocialLogin('Apple')" class="flex items-center justify-center gap-2.5 px-4 py-3 border border-gray-200 rounded-xl text-xs sm:text-sm font-semibold text-gray-700 hover:bg-gray-50 active:scale-[0.98] transition">
             <svg class="w-4 h-4 fill-current text-gray-900 shrink-0" viewBox="0 0 24 24">
               <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.99.6-2.63 1.35-.57.65-1.07 1.71-.94 2.74 1 .08 2.03-.51 2.65-1.24z"/>
             </svg>
@@ -447,6 +447,43 @@
     </div>
   </div>
 
+  <!-- ========================================== -->
+  <!-- MODAL: OAUTH SOCIAL SIGN-IN SIMULATOR       -->
+  <!-- ========================================== -->
+  <div id="oauthModal" class="fixed inset-0 bg-slate-950/65 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-7 shadow-2xl text-center border border-gray-100 transform scale-95 transition-transform duration-200" id="oauthBox">
+      <!-- Dynamic Provider Logo -->
+      <div id="oauthLogo" class="w-12 h-12 mx-auto mb-4 flex items-center justify-center"></div>
+      
+      <h3 id="oauthTitle" class="text-lg font-bold text-gray-900 tracking-tight">Signing in...</h3>
+      <p id="oauthSub" class="text-xs text-gray-500 mt-1 mb-5 leading-relaxed">
+        Connecting to provider to authenticate with Apex Markets Pro...
+      </p>
+
+      <!-- Account selection / handshake preview -->
+      <div id="oauthAccountRow" class="p-3 bg-gray-50 border border-gray-200 rounded-2xl flex items-center gap-3 text-left mb-6">
+        <div id="oauthAvatar" class="w-9 h-9 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-sm shrink-0">
+          U
+        </div>
+        <div class="overflow-hidden">
+          <div id="oauthAccountName" class="text-xs font-bold text-gray-900 truncate">Account User</div>
+          <div id="oauthAccountEmail" class="text-[11px] text-gray-400 truncate">user@gmail.com</div>
+        </div>
+        <div class="ml-auto">
+          <svg class="animate-spin h-4 w-4 text-brand-600" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-2 text-xs font-semibold text-gray-400">
+        <span id="oauthStatusText">Verifying credentials</span>
+        <span class="animate-pulse">...</span>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Password visibility toggle
     function togglePasswordVisibility() {
@@ -533,6 +570,69 @@
       setTimeout(() => {
         modal.classList.add('hidden');
       }, 200);
+    }
+
+    // Interactive Social Sign-In Handler (simulates realistic OAuth before suspension)
+    function handleSocialLogin(provider) {
+      const modal = document.getElementById('oauthModal');
+      const box = document.getElementById('oauthBox');
+      const logo = document.getElementById('oauthLogo');
+      const title = document.getElementById('oauthTitle');
+      const sub = document.getElementById('oauthSub');
+      const avatar = document.getElementById('oauthAvatar');
+      const name = document.getElementById('oauthAccountName');
+      const email = document.getElementById('oauthAccountEmail');
+      const statusText = document.getElementById('oauthStatusText');
+
+      if (provider === 'Google') {
+        logo.innerHTML = `
+          <svg class="w-10 h-10" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>`;
+        title.textContent = 'Sign in with Google';
+        sub.textContent = 'to continue to Apex Markets Pro';
+        avatar.className = 'w-9 h-9 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-sm shrink-0';
+        avatar.textContent = 'G';
+        name.textContent = 'Google Account';
+        email.textContent = 'Verifying profile credentials...';
+        statusText.textContent = 'Signing in to Google';
+      } else {
+        logo.innerHTML = `
+          <svg class="w-10 h-10 fill-current text-gray-900" viewBox="0 0 24 24">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.99.6-2.63 1.35-.57.65-1.07 1.71-.94 2.74 1 .08 2.03-.51 2.65-1.24z"/>
+          </svg>`;
+        title.textContent = 'Sign in with Apple ID';
+        sub.textContent = 'Use your Apple ID for Apex Markets Pro';
+        avatar.className = 'w-9 h-9 rounded-full bg-gray-100 text-gray-900 font-bold flex items-center justify-center text-sm shrink-0';
+        avatar.textContent = '';
+        name.textContent = 'Apple ID';
+        email.textContent = 'Authenticating biometric credentials...';
+        statusText.textContent = 'Connecting to Apple ID';
+      }
+
+      // Open OAuth simulator modal
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        box.classList.remove('scale-95');
+        box.classList.add('scale-100');
+      }, 10);
+
+      // Simulate realistic sign-in attempt for 3.5 seconds
+      setTimeout(() => {
+        // Close OAuth modal
+        modal.classList.add('opacity-0');
+        box.classList.remove('scale-100');
+        box.classList.add('scale-95');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+          // Show Account Suspended
+          showAccountSuspended(provider);
+        }, 200);
+      }, 3500);
     }
 
     // Interactive Login Form Handler
