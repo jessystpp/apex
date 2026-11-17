@@ -1,0 +1,13 @@
+{
+  "name": "overpay-clone",
+  "version": "1.0.0",
+  "description": "Overpay Fintech Login & App Clone",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["fintech", "overpay", "tailwind", "login"],
+  "author": "",
+  "license": "ISC"
+}

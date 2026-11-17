@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Markets Pro — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#EEF4FF',
+              100: '#E0EBFF',
+              200: '#C7D9FE',
+              300: '#A4C0FD',
+              400: '#7B9FFB',
+              500: '#527BF7',
+              600: '#1F53F3', // The signature Overpay royal blue
+              700: '#1847D8',
+              800: '#163BB0',
+              900: '#14348C',
+            }
+          },
+          boxShadow: {
+            'card-float': '0 24px 50px -12px rgba(15, 23, 42, 0.18)',
+            'pill-float': '0 12px 30px -6px rgba(15, 23, 42, 0.14)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .grid-dots {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.35) 1.5px, transparent 1.5px);
+      background-size: 14px 14px;
+    }
+    /* Subtle 3D isometric wireframe cube decoration */
+    .isometric-cube {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border: 1.5px solid rgba(255, 255, 255, 0.09);
+      transform: rotate(45deg) skew(-15deg, -15deg);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-0 md:p-6 lg:p-10 select-none">
+
+  <!-- Main Container -->
+  <main class="w-full max-w-[1440px] min-h-screen md:min-h-[820px] bg-white md:rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">
+    
+    <!-- ========================================== -->
+    <!-- LEFT COLUMN: AUTHENTICATION FORM          -->
+    <!-- ========================================== -->
+    <section class="w-full lg:w-[50%] p-8 sm:p-12 lg:p-16 xl:p-20 flex flex-col justify-between bg-white">
+      
+      <!-- Logo Header -->
+      <header class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center shadow-sm relative overflow-hidden">
+          <!-- Stylized Apex emblem (geometric upward chevron) -->
+          <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </div>
+        <span class="text-xl font-extrabold tracking-tight text-gray-900">Apex Markets <span class="text-brand-600">Pro</span></span>
+      </header>
+
+      <!-- Center Form Section -->
+      <div class="w-full max-w-[430px] mx-auto my-10 lg:my-0">
+        
+        <!-- Header Text -->
+        <div class="text-center mb-6">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Sign in to Apex Markets Pro</h1>
+          <p class="text-sm text-gray-400 mt-2 font-medium">Send, spend and save smarter</p>
+        </div>
+
+        <!-- Inline Account Suspended Alert Banner -->
+        <div id="suspendedBanner" class="hidden mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl flex items-start gap-3 text-left transition-all">
+          <div class="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-red-800">Account suspended</div>
+            <div class="text-[11px] text-red-600 mt-0.5 leading-snug">
+              Your account access has been suspended. Please contact customer support for further assistance.
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Sign-in Buttons -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-7">
+          <!-- Google -->
+          <button type="button" onclick="showAccountSuspended('Google Sign In')" class="flex items-center justify-center gap-2.5 px-4 py-3 border border-gray-200 rounded-xl text-xs sm:text-sm font-semibold text-gray-700 hover:bg-gray-50 active:scale-[0.98] transition">
+            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Sign in with Google</span>
+          </button>
+
+          <!-- Apple -->
+          <button type="button" onclick="showAccountSuspended('Apple Sign In')" class="flex items-center justify-center gap-2.5 px-4 py-3 border border-gray-200 rounded-xl text-xs sm:text-sm font-semibold text-gray-700 hover:bg-gray-50 active:scale-[0.98] transition">
+            <svg class="w-4 h-4 fill-current text-gray-900 shrink-0" viewBox="0 0 24 24">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.99.6-2.63 1.35-.57.65-1.07 1.71-.94 2.74 1 .08 2.03-.51 2.65-1.24z"/>
+            </svg>
+            <span>Sign in with Apple</span>
+          </button>
+        </div>
+
+        <!-- Divider -->
+        <div class="relative flex items-center justify-center mb-7">
+          <div class="border-t border-gray-200 w-full"></div>
+          <span class="bg-white px-4 text-xs font-medium text-gray-400 absolute">Or with email</span>
+        </div>
+
+        <!-- Form Fields -->
+        <form id="loginForm" class="space-y-4" onsubmit="event.preventDefault(); handleLogin();">
+          <!-- Username / Email Field -->
+          <div>
+            <div class="relative">
+              <input 
+                type="text" 
+                id="emailInput"
+                required
+                class="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition"
+                placeholder="Enter your email or username"
+              >
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div>
+            <div class="relative">
+              <input 
+                type="password" 
+                id="passwordInput"
+                required
+                class="w-full px-4 py-3.5 pr-12 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 tracking-widest transition"
+                placeholder="••••••••"
+              >
+              <!-- Password Toggle Button -->
+              <button 
+                type="button" 
+                id="togglePasswordBtn"
+                onclick="togglePasswordVisibility()"
+                class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition p-1"
+                aria-label="Toggle password visibility"
+              >
+                <!-- Eye slash icon (default hidden) -->
+                <svg id="eyeSlashIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                </svg>
+                <!-- Eye icon (active visible) -->
+                <svg id="eyeIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Options Row: Remember Me & Forgot Password -->
+          <div class="flex items-center justify-between pt-1">
+            <label class="flex items-center gap-2.5 cursor-pointer">
+              <!-- Custom Stylized Round Checkbox matching the design -->
+              <input type="checkbox" id="rememberMe" checked class="sr-only peer">
+              <div class="w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-brand-600 peer-checked:border-brand-600 flex items-center justify-center transition">
+                <svg class="w-3 h-3 text-white fill-current" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-xs sm:text-sm font-semibold text-gray-700">Remember me</span>
+            </label>
+
+            <a href="#" class="text-xs sm:text-sm font-bold text-brand-600 hover:text-brand-700 transition">
+              Forgot Password?
+            </a>
+          </div>
+
+          <!-- Primary CTA Button -->
+          <div class="pt-4">
+            <button 
+              type="submit" 
+              id="submitBtn"
+              class="w-full py-3.5 px-4 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl shadow-md hover:shadow-lg active:scale-[0.99] transition duration-150 flex items-center justify-center gap-2"
+            >
+              <span id="btnText">Sign In</span>
+              <svg id="btnSpinner" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white hidden" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Sign Up Link -->
+          <p class="text-center text-xs sm:text-sm text-gray-500 pt-3 font-medium">
+            Don't have an account? 
+            <a href="#" onclick="showAccountSuspended('Sign Up'); return false;" class="font-bold text-gray-900 hover:text-brand-600 transition ml-0.5">Sign Up</a>
+          </p>
+        </form>
+
+      </div>
+
+      <!-- Footer Policy / Copyright -->
+      <footer class="flex items-center justify-between text-xs text-gray-400 font-medium pt-8 border-t border-gray-100 lg:border-none">
+        <a href="#" class="hover:text-gray-600 transition">Privacy Policy</a>
+        <span>Copyright 2022</span>
+      </footer>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- RIGHT COLUMN: FINTECH SHOWCASE PANEL       -->
+    <!-- ========================================== -->
+    <section class="w-full lg:w-[50%] bg-brand-600 p-8 sm:p-12 lg:p-14 xl:p-16 flex flex-col justify-between relative overflow-hidden text-white">
+      
+      <!-- Decorative Background Elements -->
+      <!-- Top Right Dotted Grid Pattern -->
+      <div class="absolute top-6 right-6 w-28 h-28 grid-dots opacity-70 pointer-events-none"></div>
+      <!-- Bottom Left Dotted Grid Pattern -->
+      <div class="absolute bottom-6 left-6 w-28 h-28 grid-dots opacity-50 pointer-events-none"></div>
+      
+      <!-- Faint Isometric Decorative Blocks -->
+      <div class="isometric-cube top-10 left-12"></div>
+      <div class="isometric-cube -bottom-8 right-16"></div>
+
+      <!-- Centered Interactive Floating Mockup Composition -->
+      <div class="relative w-full max-w-[440px] mx-auto my-auto pt-4 pb-8 z-10">
+        
+        <!-- MAIN WHITE CARD: "Send Money" -->
+        <div class="bg-white rounded-3xl p-6 text-gray-800 shadow-card-float relative z-10">
+          
+          <!-- Card Header -->
+          <div class="text-center mb-5">
+            <h2 class="text-base font-bold text-gray-900">Send Money</h2>
+            <p class="text-[10px] text-gray-400 mt-0.5 max-w-[240px] mx-auto leading-tight">
+              Please enter your information that you want to send money to recent contacts
+            </p>
+          </div>
+
+          <!-- Recent Contacts Section -->
+          <div class="mb-5">
+            <div class="text-[11px] font-bold text-gray-700 mb-2.5">Recent Contact</div>
+            
+            <div class="flex items-center justify-between gap-2 overflow-x-auto pb-1">
+              <!-- Add contact circle -->
+              <div class="flex flex-col items-center gap-1 cursor-pointer group shrink-0">
+                <div class="w-10 h-10 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center text-gray-400 group-hover:border-brand-600 group-hover:text-brand-600 transition">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                  </svg>
+                </div>
+                <span class="text-[10px] text-gray-500 font-medium">Add</span>
+              </div>
+
+              <!-- Contact 1: Fransisca -->
+              <div class="flex flex-col items-center gap-1 cursor-pointer shrink-0">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces" alt="Fransisca" class="w-10 h-10 rounded-full object-cover border border-gray-100 shadow-sm">
+                <span class="text-[10px] text-gray-700 font-medium">Fransisca</span>
+              </div>
+
+              <!-- Contact 2: Candis S (Active selected with ring) -->
+              <div class="flex flex-col items-center gap-1 cursor-pointer shrink-0">
+                <div class="relative">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" alt="Candis S" class="w-10 h-10 rounded-full object-cover ring-2 ring-brand-600 ring-offset-2">
+                  <div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-brand-600 rounded-full border-2 border-white flex items-center justify-center">
+                    <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                    </svg>
+                  </div>
+                </div>
+                <span class="text-[10px] text-gray-900 font-bold">Candis S</span>
+              </div>
+
+              <!-- Contact 3: Ricardo -->
+              <div class="flex flex-col items-center gap-1 cursor-pointer shrink-0">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces" alt="Ricardo" class="w-10 h-10 rounded-full object-cover border border-gray-100 shadow-sm">
+                <span class="text-[10px] text-gray-700 font-medium">Ricardo</span>
+              </div>
+
+              <!-- Contact 4: Tanner S -->
+              <div class="flex flex-col items-center gap-1 cursor-pointer shrink-0">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=faces" alt="Tanner S" class="w-10 h-10 rounded-full object-cover border border-gray-100 shadow-sm">
+                <span class="text-[10px] text-gray-700 font-medium">Tanner S</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Choose Method & Credit Card Widget -->
+          <div class="pt-1">
+            <div class="text-[11px] font-bold text-gray-700 mb-2">Choose Method</div>
+            
+            <div class="grid grid-cols-2 gap-3">
+              <!-- Left: Card selection dropdown / mock input -->
+              <div class="space-y-2">
+                <div class="p-2.5 bg-gray-50 border border-gray-100 rounded-xl flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-3.5 bg-blue-900 rounded-sm flex items-center justify-center text-[7px] text-white font-extrabold italic">VISA</div>
+                    <span class="text-[10px] font-semibold text-gray-800">Visa card</span>
+                  </div>
+                  <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </div>
+                
+                <div class="p-2 bg-gray-50 border border-gray-100 rounded-xl flex items-center justify-between">
+                  <span class="text-[11px] font-bold text-gray-800">£1,240</span>
+                  <div class="flex items-center gap-1">
+                    <span class="text-[9px] text-gray-400 font-bold">GBP</span>
+                    <span class="text-xs">🇬🇧</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Miniature Illustrated Debit Card -->
+              <div class="bg-gradient-to-tr from-brand-800 to-brand-600 rounded-xl p-3 text-white flex flex-col justify-between shadow-sm relative overflow-hidden h-[84px]">
+                <!-- Chip & Logo -->
+                <div class="flex items-center justify-between">
+                  <div class="w-4 h-3 bg-yellow-300/80 rounded-sm border border-yellow-400"></div>
+                  <span class="text-[9px] font-black italic tracking-wider">VISA</span>
+                </div>
+                
+                <!-- Card Number / Balance -->
+                <div>
+                  <div class="text-[9px] font-medium text-blue-200">25,050.50 GBP</div>
+                  <div class="text-[8px] font-mono tracking-widest text-white/90">•••• 2468</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ============================================== -->
+        <!-- FLOATING BADGE 1 (Top Right): Total Balance   -->
+        <!-- ============================================== -->
+        <div class="absolute -top-3 sm:-top-5 -right-3 sm:-right-6 bg-white rounded-2xl p-3.5 sm:p-4 shadow-card-float z-20 border border-gray-100/80 min-w-[170px] sm:min-w-[195px] transform transition hover:-translate-y-1 duration-200">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] sm:text-[11px] font-bold text-gray-400 uppercase tracking-wider">Total Balance</span>
+            <!-- Gain Pill -->
+            <div class="flex items-center gap-1 bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold">
+              <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+              </svg>
+              <span>+1.85%</span>
+            </div>
+          </div>
+          
+          <div class="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">
+            £56,476.00 <span class="text-xs font-semibold text-gray-400">GBP</span>
+          </div>
+
+          <div class="text-[9px] text-gray-400 font-medium mt-1">
+            February 20, 2022
+          </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- FLOATING BADGE 2 (Mid-Left): Daniel Chip      -->
+        <!-- ============================================== -->
+        <div class="absolute top-[48%] -left-3 sm:-left-7 bg-white rounded-2xl py-2 px-3 shadow-pill-float z-20 border border-gray-100/90 flex items-center gap-2.5 transform transition hover:-translate-y-1 duration-200">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=faces" alt="Daniel" class="w-8 h-8 rounded-full object-cover">
+          <div>
+            <div class="text-xs font-bold text-gray-900 leading-tight">Daniel</div>
+            <div class="text-[9px] text-gray-400 font-medium">Payment received</div>
+          </div>
+          <div class="ml-2 bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full text-xs font-bold">
+            +£10.00
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Promotional Text & Carousel Indicators -->
+      <div class="text-center max-w-[460px] mx-auto z-10 pt-4">
+        <h2 id="promoTitle" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Get better with money
+        </h2>
+        
+        <p id="promoDesc" class="text-xs sm:text-sm text-blue-100/90 mt-3 font-normal leading-relaxed">
+          Apex Markets Pro helps you set saving goals, earn cash back offers. Go to disclaimer for more details and get paychecks up to two days early. Get a £20 bonus when you receive qualifying direct deposits
+        </p>
+
+        <!-- Carousel Indicators / Pagination Dots -->
+        <div class="flex items-center justify-center gap-2 mt-6">
+          <button onclick="setSlide(0)" id="dot-0" class="h-1.5 w-6 rounded-full bg-white transition-all duration-300" aria-label="Slide 1"></button>
+          <button onclick="setSlide(1)" id="dot-1" class="h-1.5 w-1.5 rounded-full bg-white/40 hover:bg-white/70 transition-all duration-300" aria-label="Slide 2"></button>
+          <button onclick="setSlide(2)" id="dot-2" class="h-1.5 w-1.5 rounded-full bg-white/40 hover:bg-white/70 transition-all duration-300" aria-label="Slide 3"></button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-gray-900 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+    <div id="toastBadge" class="w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-xs font-bold shrink-0">✕</div>
+    <div>
+      <div id="toastTitle" class="text-xs font-bold">Account suspended</div>
+      <div id="toastSub" class="text-[11px] text-gray-400">Action blocked: account is temporarily suspended</div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ACCOUNT SUSPENDED                   -->
+  <!-- ========================================== -->
+  <div id="suspendedModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+    <div class="bg-white rounded-3xl max-w-sm sm:max-w-md w-full p-6 sm:p-8 shadow-2xl text-center border border-gray-100 transform scale-95 transition-transform duration-200" id="modalBox">
+      <!-- Shield Alert Icon -->
+      <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-red-50 text-red-600 border border-red-100 flex items-center justify-center shadow-inner">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+      </div>
+
+      <h3 class="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Account suspended</h3>
+      <p class="text-xs sm:text-sm text-gray-500 mt-2.5 mb-6 leading-relaxed">
+        Your account has been suspended due to security compliance and verification requirements. Please contact customer support to restore access.
+      </p>
+
+      <div class="space-y-2.5">
+        <button type="button" onclick="closeSuspendedModal()" class="w-full py-3.5 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl text-xs sm:text-sm shadow-md hover:shadow-lg transition">
+          Contact Customer Support
+        </button>
+        <button type="button" onclick="closeSuspendedModal()" class="w-full py-2.5 px-4 text-gray-400 hover:text-gray-700 font-semibold text-xs transition">
+          Dismiss
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Password visibility toggle
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('passwordInput');
+      const eyeIcon = document.getElementById('eyeIcon');
+      const eyeSlashIcon = document.getElementById('eyeSlashIcon');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.classList.remove('hidden');
+        eyeSlashIcon.classList.add('hidden');
+        passwordInput.classList.remove('tracking-widest');
+      } else {
+        passwordInput.type = 'password';
+        eyeIcon.classList.add('hidden');
+        eyeSlashIcon.classList.remove('hidden');
+        passwordInput.classList.add('tracking-widest');
+      }
+    }
+
+    // Interactive Carousel Slider
+    const slides = [
+      {
+        title: "Get better with money",
+        desc: "Apex Markets Pro helps you set saving goals, earn cash back offers. Go to disclaimer for more details and get paychecks up to two days early. Get a £20 bonus when you receive qualifying direct deposits"
+      },
+      {
+        title: "Zero hidden transaction fees",
+        desc: "Send and receive payments globally with real-time exchange rates and complete transparency on every single transfer."
+      },
+      {
+        title: "Smart automated savings",
+        desc: "Round up your spare change on daily purchases and watch your wealth grow automatically with high-yield interest vaults."
+      }
+    ];
+
+    let currentSlide = 0;
+    function setSlide(index) {
+      currentSlide = index;
+      document.getElementById('promoTitle').textContent = slides[index].title;
+      document.getElementById('promoDesc').textContent = slides[index].desc;
+      
+      for (let i = 0; i < 3; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (i === index) {
+          dot.className = "h-1.5 w-6 rounded-full bg-white transition-all duration-300";
+        } else {
+          dot.className = "h-1.5 w-1.5 rounded-full bg-white/40 hover:bg-white/70 transition-all duration-300";
+        }
+      }
+    }
+
+    // Auto rotate slides every 6 seconds
+    setInterval(() => {
+      setSlide((currentSlide + 1) % slides.length);
+    }, 6000);
+
+    // Show Account Suspended Handlers
+    function showAccountSuspended(source) {
+      // 1. Show inline banner
+      const banner = document.getElementById('suspendedBanner');
+      if (banner) banner.classList.remove('hidden');
+
+      // 2. Show toast
+      showToast("Account suspended", "Action blocked: account is temporarily suspended", true);
+
+      // 3. Open modal dialog
+      const modal = document.getElementById('suspendedModal');
+      const box = document.getElementById('modalBox');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        box.classList.remove('scale-95');
+        box.classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeSuspendedModal() {
+      const modal = document.getElementById('suspendedModal');
+      const box = document.getElementById('modalBox');
+      modal.classList.add('opacity-0');
+      box.classList.remove('scale-100');
+      box.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 200);
+    }
+
+    // Interactive Login Form Handler
+    function handleLogin() {
+      const btn = document.getElementById('submitBtn');
+      const text = document.getElementById('btnText');
+      const spinner = document.getElementById('btnSpinner');
+      
+      // Loading state for 4 seconds
+      btn.disabled = true;
+      btn.classList.add('opacity-80', 'cursor-not-allowed');
+      text.textContent = 'Signing in...';
+      spinner.classList.remove('hidden');
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.classList.remove('opacity-80', 'cursor-not-allowed');
+        text.textContent = 'Sign In';
+        spinner.classList.add('hidden');
+        
+        // Show Account Suspended after 4 seconds
+        showAccountSuspended('Login');
+      }, 4000);
+    }
+
+    function showToast(title, sub, isError = true) {
+      const toast = document.getElementById('toast');
+      const badge = document.getElementById('toastBadge');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastSub').textContent = sub;
+      
+      if (isError) {
+        badge.className = "w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-xs font-bold shrink-0";
+        badge.textContent = "✕";
+      } else {
+        badge.className = "w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shrink-0";
+        badge.textContent = "✓";
+      }
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
