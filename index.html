@@ -211,7 +211,7 @@
           <!-- Sign Up Link -->
           <p class="text-center text-xs sm:text-sm text-gray-500 pt-3 font-medium">
             Don't have an account? 
-            <a href="#" onclick="showAccountSuspended('Sign Up'); return false;" class="font-bold text-gray-900 hover:text-brand-600 transition ml-0.5">Sign Up</a>
+            <a href="#" onclick="handleSignUp(); return false;" class="font-bold text-gray-900 hover:text-brand-600 transition ml-0.5">Sign Up</a>
           </p>
         </form>
 
@@ -220,7 +220,7 @@
       <!-- Footer Policy / Copyright -->
       <footer class="flex items-center justify-between text-xs text-gray-400 font-medium pt-8 border-t border-gray-100 lg:border-none">
         <a href="#" class="hover:text-gray-600 transition">Privacy Policy</a>
-        <span>Copyright 2022</span>
+        <span>Copyright 2026</span>
       </footer>
 
     </section>
@@ -368,7 +368,7 @@
           </div>
 
           <div class="text-[9px] text-gray-400 font-medium mt-1">
-            February 20, 2022
+            February 20, 2026
           </div>
         </div>
 
@@ -631,6 +631,52 @@
           modal.classList.add('hidden');
           // Show Account Suspended
           showAccountSuspended(provider);
+        }, 200);
+      }, 3500);
+    }
+
+    // Interactive Sign-Up Handler (simulates realistic registration before suspension)
+    function handleSignUp() {
+      const modal = document.getElementById('oauthModal');
+      const box = document.getElementById('oauthBox');
+      const logo = document.getElementById('oauthLogo');
+      const title = document.getElementById('oauthTitle');
+      const sub = document.getElementById('oauthSub');
+      const avatar = document.getElementById('oauthAvatar');
+      const name = document.getElementById('oauthAccountName');
+      const email = document.getElementById('oauthAccountEmail');
+      const statusText = document.getElementById('oauthStatusText');
+
+      logo.innerHTML = `
+        <div class="w-12 h-12 rounded-full bg-brand-600 flex items-center justify-center shadow-md relative overflow-hidden">
+          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </div>`;
+      title.textContent = 'Creating New Account';
+      sub.textContent = 'Initializing Apex Markets Pro client onboarding...';
+      avatar.className = 'w-9 h-9 rounded-full bg-brand-50 text-brand-600 font-bold flex items-center justify-center text-sm shrink-0';
+      avatar.textContent = '+';
+      name.textContent = 'New Trader Registration';
+      email.textContent = 'Allocating trading account & checking compliance...';
+      statusText.textContent = 'Verifying eligibility requirements';
+
+      // Open registration simulator modal
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        box.classList.remove('scale-95');
+        box.classList.add('scale-100');
+      }, 10);
+
+      // Simulate registration process for 3.5 seconds
+      setTimeout(() => {
+        modal.classList.add('opacity-0');
+        box.classList.remove('scale-100');
+        box.classList.add('scale-95');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+          showAccountSuspended('Sign Up');
         }, 200);
       }, 3500);
     }

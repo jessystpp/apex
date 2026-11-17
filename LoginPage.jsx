@@ -226,7 +226,7 @@ export default function LoginPage() {
 
               <p className="text-center text-xs sm:text-sm text-gray-500 pt-3 font-medium">
                 Don't have an account?{' '}
-                <a href="#signup" onClick={handleSuspendedTrigger} className="font-bold text-gray-900 hover:text-[#1F53F3] transition ml-0.5">
+                <a href="#signup" onClick={() => handleSocialLogin('SignUp')} className="font-bold text-gray-900 hover:text-[#1F53F3] transition ml-0.5">
                   Sign Up
                 </a>
               </p>
@@ -236,7 +236,7 @@ export default function LoginPage() {
           {/* Footer */}
           <footer className="flex items-center justify-between text-xs text-gray-400 font-medium pt-8 border-t border-gray-100 lg:border-none">
             <a href="#privacy" className="hover:text-gray-600 transition">Privacy Policy</a>
-            <span>Copyright 2022</span>
+            <span>Copyright 2026</span>
           </footer>
         </section>
 
@@ -349,7 +349,7 @@ export default function LoginPage() {
                 £56,476.00 <span className="text-xs font-semibold text-gray-400">GBP</span>
               </div>
               <div className="text-[9px] text-gray-400 font-medium mt-1">
-                February 20, 2022
+                February 20, 2026
               </div>
             </div>
 
@@ -405,28 +405,34 @@ export default function LoginPage() {
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                 </svg>
-              ) : (
+              ) : oauthProvider === 'Apple' ? (
                 <svg className="w-10 h-10 fill-current text-gray-900" viewBox="0 0 24 24">
                   <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.99.6-2.63 1.35-.57.65-1.07 1.71-.94 2.74 1 .08 2.03-.51 2.65-1.24z"/>
                 </svg>
+              ) : (
+                <div className="w-12 h-12 rounded-full bg-[#1F53F3] flex items-center justify-center text-white shadow-md">
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="18 15 12 9 6 15" />
+                  </svg>
+                </div>
               )}
             </div>
             <h3 className="text-lg font-bold text-gray-900 tracking-tight">
-              Sign in with {oauthProvider === 'Google' ? 'Google' : 'Apple ID'}
+              {oauthProvider === 'Google' ? 'Sign in with Google' : oauthProvider === 'Apple' ? 'Sign in with Apple ID' : 'Creating New Account'}
             </h3>
             <p className="text-xs text-gray-500 mt-1 mb-5 leading-relaxed">
-              to continue to Apex Markets Pro
+              {oauthProvider === 'SignUp' ? 'Initializing Apex Markets Pro onboarding...' : 'to continue to Apex Markets Pro'}
             </p>
             <div className="p-3 bg-gray-50 border border-gray-200 rounded-2xl flex items-center gap-3 text-left mb-6">
-              <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-sm shrink-0">
-                {oauthProvider === 'Google' ? 'G' : ''}
+              <div className="w-9 h-9 rounded-full bg-blue-100 text-[#1F53F3] font-bold flex items-center justify-center text-sm shrink-0">
+                {oauthProvider === 'Google' ? 'G' : oauthProvider === 'Apple' ? '' : '+'}
               </div>
               <div className="overflow-hidden">
                 <div className="text-xs font-bold text-gray-900 truncate">
-                  {oauthProvider === 'Google' ? 'Google Account' : 'Apple ID'}
+                  {oauthProvider === 'Google' ? 'Google Account' : oauthProvider === 'Apple' ? 'Apple ID' : 'New Trader Registration'}
                 </div>
                 <div className="text-[11px] text-gray-400 truncate">
-                  Verifying credentials...
+                  {oauthProvider === 'SignUp' ? 'Allocating trading account...' : 'Verifying credentials...'}
                 </div>
               </div>
               <div className="ml-auto">
@@ -437,7 +443,7 @@ export default function LoginPage() {
               </div>
             </div>
             <div className="flex items-center justify-center gap-2 text-xs font-semibold text-gray-400">
-              <span>Authenticating...</span>
+              <span>{oauthProvider === 'SignUp' ? 'Verifying eligibility requirements...' : 'Authenticating...'}</span>
             </div>
           </div>
         </div>
